@@ -1,10 +1,20 @@
+terraform {
+  cloud {
+    organization = "vaultec"
+
+    workspaces {
+      name = "Default"
+    }
+  }
+}
+
 resource "random_pet" "rg-name" {
-  prefix    = var.resource_group_name_prefix
+  prefix = var.resource_group_name_prefix
 }
 
 resource "azurerm_resource_group" "rg" {
-  name      = random_pet.rg-name.id
-  location  = var.resource_group_location
+  name     = random_pet.rg-name.id
+  location = var.resource_group_location
 }
 
 # Create virtual network
@@ -101,7 +111,7 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.myterraformnic.id]
-  size                  = "Standard_DS1_v2"
+  size                  = "Standard_E2bds_v5"
 
   os_disk {
     name                 = "myOsDisk"
